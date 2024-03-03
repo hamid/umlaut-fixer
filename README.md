@@ -1,5 +1,6 @@
 # umlaut-fixer
-This script addresses(find and replace) a common but often overlooked issue in text processing: the distinction between combining umlauts and precomposed umlauts
+This script addresses(find and replace) a common but often overlooked issue in text processing: the distinction between combining umlauts and precomposed umlauts. 
+I've also covered fully this matter in [this article](https://medium.com/@salimian/when-%C3%BC-isn-t-equal-to-%C3%BC-uncovering-the-diacritics-216bdb9c88b4).
 
 ## Overview
 Combining umlauts consist of a base letter followed by a diacritic mark, representing characters like "ü". In contrast, precomposed umlauts, such as "ü", combine both elements into a single character. This subtle difference can lead to inconsistencies in text formatting and searching, particularly in environments that do not uniformly support combining characters.

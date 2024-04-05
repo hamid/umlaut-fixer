@@ -28,20 +28,26 @@ replace_combining_umlauts() {
     local count=0
     local modified_count=0
     while IFS= read -r file; do
-        if grep -Iq $'u\xcc\x88' "$file"; then
+        # Check for files containing any combining umlaut
+        if grep -Iq $'[aou]\xcc\x88' "$file"; then
+            # Determine if GNU or BSD version of sed is available for in-place editing
             if sed --version 2>/dev/null | grep -q GNU; then
-                sed -i'' -e $'s/u\xcc\x88/ü/g' "$file" # GNU sed (Linux)
+                # GNU sed (Linux) syntax for in-place editing without backup
+                sed -i'' -e $'s/a\xcc\x88/ä/g' -e $'s/o\xcc\x88/ö/g' -e $'s/u\xcc\x88/ü/g' "$file"
             else
-                sed -i '' -e $'s/u\xcc\x88/ü/g' "$file" # BSD sed (macOS)
+                # BSD sed (macOS) syntax for in-place editing without backup
+                sed -i '' -e $'s/a\xcc\x88/ä/g' -e $'s/o\xcc\x88/ö/g' -e $'s/u\xcc\x88/ü/g' "$file"
             fi
             ((modified_count++))
             echo -e "${GREEN}Modified: $file${NC}"
         fi
         ((count++))
-    done < <(find "$directory" -type f ! -path "*node_modules*" -exec grep -Il $'u\xcc\x88' {} +)
+    done < <(find "$directory" -type f ! -path "*node_modules*" -exec grep -Il $'[aou]\xcc\x88' {} +)
     echo -e "$DIVIDER"
     echo -e "${GREEN}Total files modified: $modified_count.${NC}"
 }
+
+
 
 # Parse command-line arguments for non-interactive mode
 if [[ "$1" == "-r" && -n "$2" ]]; then
